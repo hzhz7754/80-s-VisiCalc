@@ -2,73 +2,70 @@ import java.util.Scanner;
 
 
 public class FormulaCell extends Cell{ 
-	private String contents;
+private String contents;
+public FormulaCell(String data){
+contents = data;
+}
 
-	public FormulaCell(String data){
-		contents = data;
-	}
+public FormulaCell(){
+this("");
+}
 
-	public FormulaCell(){
-		this("");
-	}
+public String toString() {
+return "" + calc();
+}
 
-	public String toString() {
-		return "" + calc();
-	}
+public String getInput(){
+return contents;
+}
 
-	public String getInput(){
-		return contents;
-	}
+public double calc(){
+Scanner tokens = new Scanner(contents);
+double result = 0;
+String op = "";
+boolean start = true;
+while (tokens.hasNext()){
+String token = tokens.next();
+if (token.equals("(") || token.equals(")")){
+}
+else if (ifNumber(token)){
+double number = getNumber(token);
+if (op.equals("")){
+result = number;
+}
+else{
+if (op.equals("+")){
+result = result + number; 
+}
+else if (op.equals("-")){
+result = result - number; 
+}
+else if (op.equals("*")){
+result = result * number; 
+}
+else{
+result = result / number; 
+}
+}
+}
+else{
+op = token;
+}
+}
+return result;
+}
 
-	public double calc(){
-		Scanner tokens = new Scanner(contents);
-		double result = 0;
-		String op = "";
-		boolean start = true;
-		while (tokens.hasNext()){
-			String token = tokens.next();
-			if (token.equals("(") || token.equals(")")){
-			}
-			else if (ifNumber(token)){
-				double number = getNumber(token);
-				if (op.equals("")){
-					result = number;
-				}
-				else{
-					if (op.equals("+")){
-						result = result + number; 
-					}
-					else if (op.equals("-")){
-						result = result - number; 
-					}
-					else if (op.equals("*")){
-						result = result * number; 
-					}
-					else{
-						result = result / number; 
-					}
-				}
-			}
-			else{
-				op = token;
-			}
-		}
-		return result;
-	}
+public boolean ifNumber(String token){ 
+double num = 0;
+try {
+num = Double.parseDouble(token);
+} catch (Exception e) {
+return false;
+}
+return true;
+}
 
-	public boolean ifNumber(String token){ 
-		double num = 0;
-		try {
-			num = Double.parseDouble(token);
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
-
-	public double getNumber(String token){ 
-		return Double.parseDouble(token);
-	}
-
-
+public double getNumber(String token){ 
+return Double.parseDouble(token);
+}
 }
